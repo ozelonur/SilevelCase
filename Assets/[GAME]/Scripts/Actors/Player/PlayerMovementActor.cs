@@ -1,4 +1,5 @@
 using _GAME_.Scripts.GlobalVariables;
+using _GAME_.Scripts.Managers;
 using _GAME_.Scripts.Models;
 using _GAME_.Scripts.ScriptableObjects;
 using SoundlightInteractive.EventSystem;
@@ -10,6 +11,8 @@ namespace _GAME_.Scripts.Actors.Player
     public class PlayerMovementActor : Actor
     {
         [SerializeField] private PlayerMovementScriptableObject playerMovementData;
+
+        private GameManager _gameManager;
 
         private Rigidbody _rigidbody;
 
@@ -30,8 +33,18 @@ namespace _GAME_.Scripts.Actors.Player
             _rigidbody = GetComponent<Rigidbody>();
         }
 
+        private void Start()
+        {
+            _gameManager = GameManager.Instance;
+        }
+
         private void FixedUpdate()
         {
+            if (_gameManager.isGameCompleted || !_gameManager.isGameStarted)
+            {
+                return;
+            }
+
             MoveForward();
             MoveHorizontal();
         }
@@ -47,12 +60,12 @@ namespace _GAME_.Scripts.Actors.Player
             float horizontalMove = _mouseDelta.x * _swipeSensitivity * Time.fixedDeltaTime;
             Vector3 horizontalMovement = Vector3.right * horizontalMove;
             Vector3 newPosition = _rigidbody.position + horizontalMovement;
-            
+
             float clampedX = Mathf.Clamp(newPosition.x, -_xClampRange, _xClampRange);
             newPosition = new Vector3(clampedX, newPosition.y, newPosition.z);
 
             _rigidbody.MovePosition(newPosition);
-            
+
             _mouseDelta = Vector2.zero;
         }
 
