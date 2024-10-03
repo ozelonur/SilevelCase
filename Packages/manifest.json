@@ -8,6 +8,7 @@
     "com.soundlightinteractive.securesave": "https://github.com/SoundlightInteractive/com.soundlightinteractive.securesave.git",
     "com.soundlightinteractive.settings": "https://github.com/SoundlightInteractive/com.soundlightinteractive.settings.git",
     "com.soundlightinteractive.utils": "https://github.com/SoundlightInteractive/com.soundlightinteractive.utils.git",
+    "com.unity.cinemachine": "2.10.1",
     "com.unity.collab-proxy": "2.5.2",
     "com.unity.ide.rider": "3.0.28",
     "com.unity.ide.visualstudio": "2.0.22",
