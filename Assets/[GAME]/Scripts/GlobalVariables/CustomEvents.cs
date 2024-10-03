@@ -8,5 +8,11 @@ namespace _GAME_.Scripts.GlobalVariables
         
         // Player Movement
         public const string SetMouseDelta = nameof(SetMouseDelta);
+        
+        // Camera
+        public const string SetCameraFollowTransform = nameof(SetCameraFollowTransform);
+        
+        // Spawn Logic
+        public const string SpawnPlatform = nameof(SpawnPlatform);
     }
 }
