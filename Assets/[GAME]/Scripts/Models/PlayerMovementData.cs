@@ -9,8 +9,7 @@ namespace _GAME_.Scripts.Models
         [Header("Player Movement Settings")] [Range(1, 10)]
         public float forwardSpeed;
         public float swipeSensitivity;
-        public float swipeThreshold;
-        public float jumpForce;
+        public float xClampRange;
 
     }
 }
