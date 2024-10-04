@@ -18,5 +18,8 @@ namespace _GAME_.Scripts.GlobalVariables
         
         // Spawn Logic
         public const string SpawnPlatform = nameof(SpawnPlatform);
+        
+        // UI
+        public const string UpgradeMoneyText = nameof(UpgradeMoneyText);
     }
 }

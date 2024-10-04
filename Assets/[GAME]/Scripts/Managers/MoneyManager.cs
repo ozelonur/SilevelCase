@@ -1,3 +1,4 @@
+using _GAME_.Scripts.GlobalVariables;
 using SoundlightInteractive.Manager;
 using UnityEngine;
 
@@ -8,7 +9,11 @@ namespace _GAME_.Scripts.Managers
         public int Money
         {
             get => PlayerPrefs.GetInt("Money");
-            set => PlayerPrefs.SetInt("Money", value);
+            set
+            {
+                PlayerPrefs.SetInt("Money", value);
+                Push(CustomEvents.UpgradeMoneyText);
+            } 
         }
 
         public override void ResetActor()

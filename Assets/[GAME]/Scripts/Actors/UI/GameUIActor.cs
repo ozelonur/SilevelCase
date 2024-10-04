@@ -1,4 +1,6 @@
+using _GAME_.Scripts.Extensions;
 using _GAME_.Scripts.GlobalVariables;
+using _GAME_.Scripts.Managers;
 using DG.Tweening;
 using SoundlightInteractive.EventSystem;
 using TMPro;
@@ -20,9 +22,12 @@ namespace _GAME_.Scripts.Actors.UI
         [SerializeField] private TextMeshProUGUI tapToPlayText;
         [SerializeField] private TextMeshProUGUI tapToRestartText;
         [SerializeField] private TextMeshProUGUI gameCompleteStatusText;
+        [SerializeField] private TextMeshProUGUI moneyText;
 
         [SerializeField] private Color gameFailedColor;
         [SerializeField] private Color gameCompletedColor;
+
+        private Tween _bounceTween;
 
         private void Awake()
         {
@@ -30,6 +35,11 @@ namespace _GAME_.Scripts.Actors.UI
             startGameButton.onClick.AddListener(OnClickStartGame);
             restartGameButton.onClick.AddListener(RestartGame);
             AnimateStartText(tapToPlayText.transform);
+        }
+
+        private void Start()
+        {
+            moneyText.text = MoneyManager.Instance.Money.ToShortString();
         }
 
         private void RestartGame()
@@ -42,12 +52,27 @@ namespace _GAME_.Scripts.Actors.UI
             if (status)
             {
                 Register(CustomEvents.OnGameComplete, OnGameComplete);
+                Register(CustomEvents.UpgradeMoneyText, UpgradeMoneyText);
             }
 
             else
             {
                 Unregister(CustomEvents.OnGameComplete, OnGameComplete);
+                Unregister(CustomEvents.UpgradeMoneyText, UpgradeMoneyText);
             }
+        }
+
+        private void UpgradeMoneyText(object[] arguments)
+        {
+            if (_bounceTween != null && _bounceTween.IsActive())
+            {
+                _bounceTween.Kill();
+            }
+            
+            _bounceTween = moneyText.transform.DOScale(1.2f, 0.1f).SetLoops(2, LoopType.Yoyo).OnStepComplete(() =>
+            {
+                moneyText.text = MoneyManager.Instance.Money.ToShortString();
+            });
         }
 
         private void OnGameComplete(object[] arguments)

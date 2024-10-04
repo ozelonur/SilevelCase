@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Coin Settings
   m_EditorClassIdentifier: 
   data:
-    worth: 5
+    worth: 10
