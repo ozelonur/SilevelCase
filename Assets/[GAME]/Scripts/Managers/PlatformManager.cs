@@ -4,7 +4,6 @@ using _GAME_.Scripts.GlobalVariables;
 using _GAME_.Scripts.ScriptableObjects;
 using SoundlightInteractive.Manager;
 using SoundlightInteractive.Pooling;
-using SoundlightInteractive.Utils;
 using UnityEngine;
 
 namespace _GAME_.Scripts.Managers
@@ -82,8 +81,6 @@ namespace _GAME_.Scripts.Managers
             platform.poolIndex = generateIndex;
 
             _activePlatformIndex++;
-            
-            SIDebug.Log("Index : " + platform.poolIndex);
 
             _activePlatforms.Add(platform);
             PoolManager.Instance.ReleaseToPool(PoolType.Platform + _activePlatforms[0].poolIndex, _activePlatforms[0]);
