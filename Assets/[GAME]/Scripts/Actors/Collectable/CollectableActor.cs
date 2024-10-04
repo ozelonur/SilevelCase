@@ -39,6 +39,7 @@ namespace _GAME_.Scripts.Actors.Collectable
             transform.DOLocalRotate(Vector3.up * 360, 1f, RotateMode.LocalAxisAdd)
                 .SetEase(Ease.Linear)
                 .SetLoops(-1, LoopType.Incremental)
+                .SetDelay(Random.Range(0,.3f))
                 .SetLink(gameObject);
         }
 
