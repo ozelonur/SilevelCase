@@ -8,12 +8,15 @@ namespace _GAME_.Scripts.Actors.Player
     {
         private void OnTriggerEnter(Collider other)
         {
-            if (!other.TryGetComponent(out IInteractable interactable))
+            if (other.TryGetComponent(out IInteractable interactable))
             {
-                return;
+                interactable.Interact();
             }
-            
-            interactable.Interact();
+
+            if (other.TryGetComponent(out ICollectable collectable))
+            {
+                collectable.Collect();
+            }
         }
 
         public override void ResetActor()

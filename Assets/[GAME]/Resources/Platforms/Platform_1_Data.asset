@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Platform_1_Data
   m_EditorClassIdentifier: 
   data:
-    platformPrefab: {fileID: 5612581735998113775, guid: 27e4c35aea819fc4dabbdc1b0d36e2fe,
+    platformPrefab: {fileID: 3832177129523057533, guid: 27e4c35aea819fc4dabbdc1b0d36e2fe,
       type: 3}

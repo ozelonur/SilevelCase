@@ -96,28 +96,35 @@ public class PlatformCreatorEditor : EditorWindow
         string dataPath = AssetDatabase.GenerateUniqueAssetPath($"{resourcesPath}/{platformName}_{platformCount + 1}_Data.asset");
         AssetDatabase.CreateAsset(newPlatformData, dataPath);
 
-        GameObject newPlatformPrefab = Instantiate(platformPrefabTemplate);
-        string prefabPath = AssetDatabase.GenerateUniqueAssetPath($"{resourcesPath}/{platformName}_{platformCount + 1}.prefab");
-        GameObject savedPrefab = PrefabUtility.SaveAsPrefabAsset(newPlatformPrefab, prefabPath);
-
-        SerializedObject serializedPlatformData = new SerializedObject(newPlatformData);
-        SerializedProperty platformDataProperty = serializedPlatformData.FindProperty("data");
-        if (platformDataProperty != null)
+        GameObject newPlatformPrefab = PrefabUtility.InstantiatePrefab(platformPrefabTemplate) as GameObject;
+        if (newPlatformPrefab != null)
         {
-            SerializedProperty platformPrefabProperty = platformDataProperty.FindPropertyRelative("platformPrefab");
-            if (platformPrefabProperty != null)
+            string prefabPath = AssetDatabase.GenerateUniqueAssetPath($"{resourcesPath}/{platformName}_{platformCount + 1}.prefab");
+            GameObject variantPrefab = PrefabUtility.SaveAsPrefabAsset(newPlatformPrefab, prefabPath);
+
+            SerializedObject serializedPlatformData = new SerializedObject(newPlatformData);
+            SerializedProperty platformDataProperty = serializedPlatformData.FindProperty("data");
+            if (platformDataProperty != null)
             {
-                platformPrefabProperty.objectReferenceValue = savedPrefab;
-                serializedPlatformData.ApplyModifiedProperties();
+                SerializedProperty platformPrefabProperty = platformDataProperty.FindPropertyRelative("platformPrefab");
+                if (platformPrefabProperty != null)
+                {
+                    platformPrefabProperty.objectReferenceValue = variantPrefab;
+                    serializedPlatformData.ApplyModifiedProperties();
+                }
             }
+
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+
+            Debug.Log("Platform and data successfully created at Resources/Platforms");
+
+            DestroyImmediate(newPlatformPrefab);
         }
-
-        AssetDatabase.SaveAssets();
-        AssetDatabase.Refresh();
-
-        Debug.Log("Platform and data successfully created at Resources/Platforms");
-
-        DestroyImmediate(newPlatformPrefab);
+        else
+        {
+            Debug.LogError("Failed to create platform variant.");
+        }
     }
 }
 #endif
