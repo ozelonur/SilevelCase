@@ -27,13 +27,13 @@ namespace _GAME_.Scripts.Managers
 
             for (int i = 0; i < 10; i++)
             {
-                Vector3 pos = Vector3.zero;
-                pos.z = platformDataArray[i % platformDataArray.Length].data.platformPrefab.transform.GetChild(0)
-                    .localScale.z * i;
+                Vector3 pos = i == 0 ? Vector3.zero : platformDataArray[i % platformDataArray.Length].data.platformPrefab.GetEndTransform().position;
                 PlatformActor platform = PoolManager.Instance.SpawnFromPool<PlatformActor>(
                     PoolType.Platform + (i % platformDataArray.Length),
                     pos,
                     Quaternion.identity);
+
+                platform.transform.position = i == 0 ? Vector3.zero : _activePlatforms[^1].GetEndTransform().position;
 
                 platform.poolIndex = i % platformDataArray.Length;
 

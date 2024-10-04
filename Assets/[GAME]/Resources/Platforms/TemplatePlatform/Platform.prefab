@@ -119,6 +119,7 @@ MonoBehaviour:
   poolIndex: 0
   platformEndTransform: {fileID: 1259837005869724570}
   spawnTriggerActor: {fileID: 4221498129127991609}
+  platformRenderer: {fileID: 9184857508512919805}
 --- !u!1 &1936120118578289475
 GameObject:
   m_ObjectHideFlags: 0
