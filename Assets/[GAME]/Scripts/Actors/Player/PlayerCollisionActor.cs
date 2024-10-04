@@ -17,6 +17,11 @@ namespace _GAME_.Scripts.Actors.Player
             {
                 collectable.Collect();
             }
+
+            if (other.TryGetComponent(out IObstacle obstacle))
+            {
+                obstacle.Hit();
+            }
         }
 
         public override void ResetActor()

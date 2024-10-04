@@ -8,6 +8,10 @@ namespace _GAME_.Scripts.GlobalVariables
         
         // Player Movement
         public const string SetMouseDelta = nameof(SetMouseDelta);
+        public const string SetMoveStatus = nameof(SetMoveStatus);
+        
+        // Player Interactions
+        public const string Die = nameof(Die);
         
         // Camera
         public const string SetCameraFollowTransform = nameof(SetCameraFollowTransform);
