@@ -1,23 +1,51 @@
 using System.Collections.Generic;
 using _GAME_.Scripts.Actors.Platform;
 using _GAME_.Scripts.GlobalVariables;
+using _GAME_.Scripts.ScriptableObjects;
 using SoundlightInteractive.Manager;
 using SoundlightInteractive.Pooling;
+using SoundlightInteractive.Utils;
 using UnityEngine;
 
 namespace _GAME_.Scripts.Managers
 {
     public class PlatformManager : Manager<PlatformManager>
     {
-        [SerializeField] private PlatformActor platformPrefab;
+        [SerializeField] private PlatformGenerateType generateType;
+        [SerializeField] private PlatformScriptableObject[] platformDataArray;
 
         private List<PlatformActor> _activePlatforms = new();
 
         private int _activePlatformIndex;
+
         private void Start()
         {
-            PoolManager.Instance.CreatePool(PoolType.Platform, platformPrefab, 150);
+            for (int i = 0; i < platformDataArray.Length; i++)
+            {
+                PoolManager.Instance.CreatePool(PoolType.Platform + i, platformDataArray[i].data.platformPrefab, 10);
+            }
+
+            for (int i = 0; i < 10; i++)
+            {
+                Vector3 pos = Vector3.zero;
+                pos.z = platformDataArray[i % platformDataArray.Length].data.platformPrefab.transform.GetChild(0)
+                    .localScale.z * i;
+                PlatformActor platform = PoolManager.Instance.SpawnFromPool<PlatformActor>(
+                    PoolType.Platform + (i % platformDataArray.Length),
+                    pos,
+                    Quaternion.identity);
+
+                platform.poolIndex = i % platformDataArray.Length;
+
+                _activePlatforms.Add(platform);
+
+                if (i < 2)
+                {
+                    platform.SetSpawnTriggerColliderTriggerStatus(false);
+                }
+            }
         }
+
 
         protected override void Listen(bool status)
         {
@@ -34,28 +62,40 @@ namespace _GAME_.Scripts.Managers
 
         private void SpawnPlatform(object[] arguments)
         {
-            Transform target = (Transform)arguments[0];
+            int generateIndex;
 
+            if (generateType == PlatformGenerateType.Progressive)
+            {
+                generateIndex = _activePlatformIndex % platformDataArray.Length;
+            }
+            else
+            {
+                generateIndex = Random.Range(0, platformDataArray.Length);
+            }
+            
+            
             PlatformActor platform =
-                PoolManager.Instance.SpawnFromPool<PlatformActor>(PoolType.Platform, target.position,
+                PoolManager.Instance.SpawnFromPool<PlatformActor>(
+                    PoolType.Platform + generateIndex, _activePlatforms[^1].GetEndTransform().position,
                     Quaternion.identity);
-            
-            _activePlatforms.Add(platform);
 
-            if (_activePlatforms.Count <= 2) return;
+            platform.poolIndex = generateIndex;
+
+            _activePlatformIndex++;
             
-            PoolManager.Instance.ReleaseToPool(PoolType.Platform, _activePlatforms[0]);
+            SIDebug.Log("Index : " + platform.poolIndex);
+
+            _activePlatforms.Add(platform);
+            PoolManager.Instance.ReleaseToPool(PoolType.Platform + _activePlatforms[0].poolIndex, _activePlatforms[0]);
             _activePlatforms.RemoveAt(0);
         }
 
         public override void ResetActor()
         {
-            
         }
 
         public override void InitializeActor()
         {
-            
         }
     }
 }

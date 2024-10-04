@@ -1,3 +1,4 @@
+using System;
 using _GAME_.Scripts.GlobalVariables;
 using _GAME_.Scripts.Interfaces;
 using SoundlightInteractive.EventSystem;
@@ -8,6 +9,12 @@ namespace _GAME_.Scripts.Actors.Platform
     public class SpawnTriggerActor : Actor, IInteractable
     {
         private Transform _platformEndTransform;
+        private Collider _collider;
+
+        private void Awake()
+        {
+            _collider = GetComponent<Collider>();
+        }
 
         public void InitTransforms(Transform platformEndTransform)
         {
@@ -25,6 +32,12 @@ namespace _GAME_.Scripts.Actors.Platform
 
         public override void InitializeActor()
         {
+            
+        }
+
+        public void SetColliderStatus(bool status)
+        {
+            _collider.enabled = status;
         }
     }
 }

@@ -5,6 +5,8 @@ namespace _GAME_.Scripts.Actors.Platform
 {
     public class PlatformActor : Actor
     {
+        [HideInInspector] public int poolIndex;
+        
         [SerializeField] private Transform platformEndTransform;
         [SerializeField] private SpawnTriggerActor spawnTriggerActor;
 
@@ -20,6 +22,16 @@ namespace _GAME_.Scripts.Actors.Platform
 
         public override void InitializeActor()
         {
+        }
+
+        public void SetSpawnTriggerColliderTriggerStatus(bool status)
+        {
+            spawnTriggerActor.SetColliderStatus(status);
+        }
+
+        public Transform GetEndTransform()
+        {
+            return platformEndTransform;
         }
         
     }

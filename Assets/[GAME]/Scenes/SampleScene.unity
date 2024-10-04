@@ -1388,8 +1388,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isActive: 0
-  platformPrefab: {fileID: 3953801869788530046, guid: 76a1b646942cd9a41828d557a86620ce,
-    type: 3}
+  generateType: 1
+  platformDataArray:
+  - {fileID: 11400000, guid: 150b2129bb3cd8743b5082683eabc769, type: 2}
+  - {fileID: 11400000, guid: ada761b7e93d3e742b1d5a033a4356cd, type: 2}
+  - {fileID: 11400000, guid: 29a21d4421298df46be844e4996cc80e, type: 2}
 --- !u!1 &1639257996
 GameObject:
   m_ObjectHideFlags: 0
